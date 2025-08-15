@@ -11,11 +11,8 @@
     "build": "cd client && npm run build",
     "build:copy": "cd client && npm run build && xcopy build\\* ..\\public\\ /E /Y",
     "start": "node app.js",
-    "deploy:prep": "node scripts/deploy.js",
-    "deploy:render": "node scripts/render-deploy.js",
-    "deploy:single": "node scripts/deploy-single.js",
-    "docker:single": "docker-compose -f docker-compose.single.yml up --build",
-    "docker:single:down": "docker-compose -f docker-compose.single.yml down"
+    "docker:build": "docker build -t chess-game .",
+    "docker:run": "docker run -p 3000:10000 --env-file .env chess-game"
   },
   "keywords": [],
   "author": "",
