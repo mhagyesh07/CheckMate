@@ -12,22 +12,19 @@ RUN apk add --no-cache \
 # Set working directory
 WORKDIR /app
 
-# Copy package files and install dependencies
-COPY package*.json ./
-COPY client/package*.json ./client/
+# Copy ALL source code first
+COPY . .
 
 # Install backend dependencies
 RUN npm ci --only=production
 
-# Install client dependencies and build
+# Build client explicitly without using npm scripts
 WORKDIR /app/client
-RUN npm ci && npm run build
+RUN npm ci
+RUN npx react-scripts build
 
 # Go back to app root
 WORKDIR /app
-
-# Copy application source
-COPY . .
 
 # Create necessary directories
 RUN mkdir -p /var/www/html /var/log/nginx /var/log/nodejs /var/log/supervisor /app/logs
