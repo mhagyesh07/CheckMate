@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  # All-in-one Chess Game (Frontend + Backend + Nginx)
+  chess-game:
+    build:
+      context: .
+      dockerfile: Dockerfile.single
+    ports:
+      - "3000:80"  # Map host port 3000 to container port 80
+    environment:
+      # Database
+      - MONGODB_URI=${MONGODB_URI:-mongodb+srv://Bhagyesh:CiGj8XmoKscMgiqU@cluster2.huaiu3c.mongodb.net/chess_game?retryWrites=true&w=majority&appName=Cluster2}
+      
+      # JWT Configuration
+      - JWT_SECRET=${JWT_SECRET:-chess-game-super-secret-jwt-key-2024-production-ready-32-chars-minimum}
+      - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET:-chess-game-refresh-secret-different-from-main-jwt-secret-2024-prod}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN:-24h}
+      - JWT_REFRESH_EXPIRES_IN=${JWT_REFRESH_EXPIRES_IN:-7d}
+      
+      # Server Configuration
+      - NODE_ENV=${NODE_ENV:-production}
+      - PORT=80  # Nginx listens on port 80 inside container
+      - BACKEND_PORT=3001  # Node.js backend runs on port 3001 inside container
+      
+      # CORS Configuration
+      - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:3000}
+      
+      # Logging
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+    
+    volumes:
+      # Persist logs
+      - ./logs:/app/logs
+      - ./logs/nginx:/var/log/nginx
+      - ./logs/nodejs:/var/log/nodejs
+    
+    restart: unless-stopped
+    
+    networks:
+      - chess-network
+    
+    healthcheck:
+      test: ["CMD", "/health.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # Optional: MongoDB for local development
+  # Uncomment if you want local MongoDB instead of Atlas
+  # mongodb:
+  #   image: mongo:7
+  #   ports:
+  #     - "27017:27017"
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: admin
+  #     MONGO_INITDB_ROOT_PASSWORD: password
+  #     MONGO_INITDB_DATABASE: chess_game
+  #   volumes:
+  #     - mongodb_data:/data/db
+  #   networks:
+  #     - chess-network
+  #   restart: unless-stopped
+
+volumes:
+  # mongodb_data:
+
+networks:
+  chess-network:
+    driver: bridge

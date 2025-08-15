@@ -12,7 +12,10 @@
     "build:copy": "cd client && npm run build && xcopy build\\* ..\\public\\ /E /Y",
     "start": "node app.js",
     "deploy:prep": "node scripts/deploy.js",
-    "deploy:render": "node scripts/render-deploy.js"
+    "deploy:render": "node scripts/render-deploy.js",
+    "deploy:single": "node scripts/deploy-single.js",
+    "docker:single": "docker-compose -f docker-compose.single.yml up --build",
+    "docker:single:down": "docker-compose -f docker-compose.single.yml down"
   },
   "keywords": [],
   "author": "",

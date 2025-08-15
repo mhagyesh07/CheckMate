@@ -9,7 +9,7 @@ const config = {
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '24h',
   
   // Server
-  port: process.env.PORT || 3000,
+  port: process.env.BACKEND_PORT || process.env.PORT || 3000,
   nodeEnv: process.env.NODE_ENV || 'development',
   
   // Validation
