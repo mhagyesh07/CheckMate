@@ -1,0 +1,50 @@
+{
+  "name": "chess",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node app.js",
+    "server": "node app.js",
+    "client": "cd client && npm start",
+    "dev:both": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "cd client && npm run build",
+    "build:copy": "cd client && npm run build && xcopy build\\* ..\\public\\ /E /Y",
+    "start": "node app.js",
+    "deploy:prep": "node scripts/deploy.js",
+    "deploy:render": "node scripts/render-deploy.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.11.0",
+    "bcryptjs": "^3.0.2",
+    "chess.js": "^1.0.0-beta.8",
+    "compression": "^1.8.1",
+    "connect-redis": "^9.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^4.19.2",
+    "express-rate-limit": "^8.0.1",
+    "express-session": "^1.18.2",
+    "express-slow-down": "^3.0.0",
+    "express-validator": "^7.2.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.17.1",
+    "morgan": "^1.10.1",
+    "redis": "^5.8.1",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.8.1",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.19",
+    "concurrently": "^9.2.0",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4"
+  }
+}
