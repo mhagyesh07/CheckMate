@@ -5,7 +5,7 @@ const { validationResult } = require('express-validator');
 
 class AuthController {
   /**
-   * Register a new user
+   * Register new user
    * @param {Object} req - Express request object
    * @param {Object} res - Express response object
    */
